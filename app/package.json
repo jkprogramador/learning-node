@@ -12,6 +12,7 @@
   "author": "Jack Lee",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.3"
+    "express": "^4.17.3",
+    "express-handlebars": "^6.0.5"
   }
 }
