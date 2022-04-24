@@ -1,4 +1,22 @@
 import http from 'http'
+import fs from 'fs'
+import { __dirname } from './constants.js'
+
+
+function serveStaticFile(res, path, contentType, responseCode = 200) {
+    // fs.readFile is an asynchronous method for reading files. Synchronous version is readFileSync
+    // Provide a callback function to readFile
+    // __dirname resolves to directory the executing script resides in. CommonJS global not available when using ES imports
+    fs.readFile(__dirname + path, (err, data) => {
+        if (err) {
+            res.writeHead(500, { 'Content-Type': 'text/plain' })
+            return res.end('500- Internal Error')
+        }
+
+        res.writeHead(responseCode, { 'Content-Type': contentType })
+        res.end(data)
+    })
+}
 
 const port = process.env.NODE_PORT || 3000
 const server = http.createServer((req, res) => {
@@ -8,16 +26,16 @@ const server = http.createServer((req, res) => {
 
     switch (path) {
         case '':
-            res.writeHead(200, { 'Content-Type': 'text/plain' })
-            res.end('Homepage')
+            serveStaticFile(res, '/public/home.html', 'text/html')
             break
         case '/about':
-            res.writeHead(200, { 'Content-Type': 'text/plain' })
-            res.end('About')
+            serveStaticFile(res, '/public/about.html', 'text/html')
+            break
+        case '/img/foto.jpg':
+            serveStaticFile(res, '/public/img/foto.jpg', 'image/jpg')
             break
         default:
-            res.writeHead(404, { 'Content-Type': 'text/plain' })
-            res.end('Not Found')
+            serveStaticFile(res, '/public/404.html', 'text/html', 404)
             break
     }
 })
