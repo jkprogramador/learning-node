@@ -11,4 +11,4 @@ services:
       - ./app:/home/node/app
     environment:
       - NODE_ENV=development
-      - ENTRYPOINT_FILE=helloworld.js
+      - ENTRYPOINT_FILE=meadowlark.js
