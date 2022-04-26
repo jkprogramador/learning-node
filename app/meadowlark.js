@@ -29,4 +29,8 @@ app.use(handlers.notFound)
 
 app.use(handlers.serverError)
 
-app.listen(port, () => console.log(`Express started on http://localhost:${port}`))
+if (require.main === module) { // If running file directly with node, require.main equals global module ...
+    app.listen(port, () => console.log(`Express started on http://localhost:${port}`))
+} else {
+    module.exports = app // otherwise it's being imported from another module
+}
